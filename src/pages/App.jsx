@@ -207,7 +207,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("/me")
+      .get("/me", { withCredentials: true })
       .then((res) => setUser(res.data.user))
       .catch(() => navigate("/login"));
   }, [navigate]);
