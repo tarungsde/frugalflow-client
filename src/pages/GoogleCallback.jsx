@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from '../axios';
 
 function GoogleCallback() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Direct redirect for testing
-    setTimeout(() => {
-      navigate('/');
-    }, 2000);
+    // Since session might not be working, let's try a different approach
+    // Redirect to home and let the app handle authentication
+    const timer = setTimeout(() => {
+      navigate('/', { replace: true });
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, [navigate]);
 
   return (
@@ -18,11 +20,10 @@ function GoogleCallback() {
       justifyContent: 'center', 
       alignItems: 'center', 
       height: '100vh',
-      flexDirection: 'column',
-      padding: '2rem'
+      flexDirection: 'column'
     }}>
       <h2>Google Sign In Successful!</h2>
-      <p>Redirecting to your dashboard...</p>
+      <p>Redirecting you to the app...</p>
       <div>Loading...</div>
     </div>
   );
