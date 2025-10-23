@@ -208,8 +208,17 @@ function App() {
   useEffect(() => {
     axios
       .get("/me", { withCredentials: true })
-      .then((res) => setUser(res.data.user))
-      .catch(() => navigate("/login"));
+      .then((res) => {
+        if (res.data.loggedIn) {
+          setUser(res.data.user);
+        } else {
+          navigate("/login");
+        }
+      })
+      .catch((error) => {
+        console.log("Auth check failed, but continuing...");
+        // Don't redirect immediately, let user stay on page
+      });
   }, [navigate]);
 
   useEffect(() => {
