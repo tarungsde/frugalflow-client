@@ -17,9 +17,9 @@ function Login() {
     }
   };
 
-  // function handleGoogleLogin() {
-  //   window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/google`;
-  // };
+  function handleGoogleLogin() {
+    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/google`;
+  };
 
   return (
     <form onSubmit={handleLogin}>
@@ -28,7 +28,7 @@ function Login() {
       <input type="password" placeholder="Password" value={password}
         onChange={(e) => setPassword(e.target.value)} />
       <button type="submit">Login</button>
-      {/* <button type="button" onClick={handleGoogleLogin}>Login with Google</button> */}
+      {<button type="button" onClick={handleGoogleLogin}>Login with Google</button>}
       <p>First time here? <button type="button" onClick={(e) => navigate("/register")}>Register!</button> </p>
     </form>
   );
