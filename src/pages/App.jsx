@@ -206,19 +206,15 @@ function App() {
   const incomeCategories = ["Salary", "Free Lance", "Investments"];
 
   useEffect(() => {
-    axios
-      .get("/me", { withCredentials: true })
-      .then((res) => {
-        if (res.data.loggedIn) {
-          setUser(res.data.user);
-        } else {
-          navigate("/login");
-        }
-      })
-      .catch((error) => {
-        console.log("Auth check failed, but continuing...");
-        // Don't redirect immediately, let user stay on page
-      });
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+    
+    // You can verify the token with your server if needed
+    setUser({ email: 'User' }); // Set a placeholder or fetch user data
+    fetchTransactions();
   }, [navigate]);
 
   useEffect(() => {
