@@ -429,9 +429,9 @@ function App() {
             )}
         </div>
 
-        <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 mx-30 pb-10">
+        <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 mx-30 mb-3">
           {/* Headers */}
-          <div className="grid grid-cols-4 text-sm font-semibold text-gray-500 border-b border-gray-200 py-6 px-6">
+          <div className="grid grid-cols-4 text-sm font-semibold text-gray-500 border-b border-gray-200 py-6 px-6 pb-10">
             <div>Type</div>
             <div>Details</div>
             <div>Date</div>
