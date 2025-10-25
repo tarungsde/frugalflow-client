@@ -147,16 +147,16 @@ function App() {
             </button>
 
             {optionsVisible === tx._id && (
-              <div className="absolute right-0 mt-2 w-28 bg-white border border-gray-200 rounded shadow-md z-10">
+              <div className="absolute right-0 top-full mt-1 w-28 bg-white border border-gray-200 rounded-lg shadow-lg z-50 options-menu">
                 <button
                   onClick={() => handleEdit(tx)}
-                  className="block w-full px-4 py-2 text-left hover:bg-gray-100 text-sm"
+                  className="block w-full px-4 py-2 text-left hover:bg-gray-50 text-sm text-gray-700 border-b border-gray-100"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(tx._id)}
-                  className="block w-full px-4 py-2 text-left hover:bg-gray-100 text-sm text-red-600"
+                  className="block w-full px-4 py-2 text-left hover:bg-gray-50 text-sm text-red-600"
                 >
                   Delete
                 </button>
