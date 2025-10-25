@@ -39,11 +39,6 @@ function App() {
     } 
   };
 
-  // const handleLogout = async () => {
-  //   await axios.get("/logout");
-  //   navigate("/login");
-  // }
-
   const handleLogout = () => {
     // Just remove the token locally
     localStorage.removeItem('authToken');
