@@ -51,15 +51,29 @@ function App() {
     switch (category.toLowerCase()) {
       case 'free lance':
         return '💻';
-      case 'entertainment':
-        return '🎟️';
-      case 'transportation':
-        return '🚗';
+      case 'salary':
+        return '💰';
+      case 'investments':
+        return '📈';
       case 'food & dining':
       case 'groceries':
         return '🍽️';
+      case 'shopping':
+        return '🛍️';
       case 'housing':
         return '🏠';
+      case 'transportation':
+        return '🚗';
+      case 'vehicle':
+        return '🚙';
+      case 'life & entertainment':
+        return '🎭';
+      case 'communication, pc':
+        return '💻';
+      case 'financial expenses':
+        return '💳';
+      case 'others':
+        return '📦';
       default:
         return '📦';
     }
@@ -77,21 +91,6 @@ function App() {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
-
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (!event.target.className('.transaction-card')) {
-  //       setEditTransaction(null);
-  //       setNewTransaction(false);
-  //     }
-  //   };
-
-  //   document.addEventListener('click', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('click', handleClickOutside);
-  //   };
-  // }, []);
-
 
   const mappingFunction = (tx) => {
     const isIncome = tx.type === "income";
