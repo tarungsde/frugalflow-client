@@ -44,7 +44,7 @@ function App() {
     localStorage.removeItem('authToken');
     setUser(null);
     setTransactions([]);
-    navigate("/login");
+    navigate("/signin");
   }
    
   const getCategoryIcon = (category) => {
