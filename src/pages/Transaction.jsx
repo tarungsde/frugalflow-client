@@ -3,8 +3,8 @@ import axios from "../axios";
 
 function Transaction({ onClose, onSuccess, existingData }) {
 
-  const expenseCategories = ["Food & Dining", "Shopping", "Housing"];
-  const incomeCategories = ["Salary", "Free Lance", "Investments"];
+  const expenseCategories = ["Food & Dining", "Shopping", "Housing", "Transportation", "Vehicle", "Life & Entertainment", "Communication, PC", "Financial Expenses", "Investments", "Others"];
+  const incomeCategories = ["Salary", "Free Lance", "Investments", "Others"];
 
   const today = new Date();
 
@@ -16,8 +16,9 @@ function Transaction({ onClose, onSuccess, existingData }) {
     existingData ? existingData.date.split("T")[0] : "" || today.toISOString().split("T")[0]);
 
   useEffect(() => {
-    setCategory("");
-  }, [transactionType]);
+    if (!existingData)
+      setCategory("");
+  }, [transactionType, existingData]);
 
   const handleSubmit = async (e) => {
     
