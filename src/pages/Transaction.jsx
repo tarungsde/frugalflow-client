@@ -166,7 +166,7 @@ function Transaction({ onClose, onSuccess, existingData }) {
           {/* Submit button */}
           <button
             type="submit"
-            className="bg-purple-500 text-white py-2 rounded-md mt-4 hover:bg-purple-600 transition duration-200"
+            className="bg-purple-500 text-white text-sm bg-purple-500 px-4 py-2 border-0 rounded-md hover:bg-white hover:text-purple-500 transition duration-200 cursor-pointer hover:border-2 hover:border-purple-500"
           >
             {existingData ? "Save Changes" : "Add Transaction"}
           </button>
