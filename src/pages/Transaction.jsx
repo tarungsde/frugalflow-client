@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "../axios";
+import toast from 'react-hot-toast';
 
 function Transaction({ onClose, onSuccess, existingData }) {
 
@@ -48,12 +49,13 @@ function Transaction({ onClose, onSuccess, existingData }) {
     setCategory("");
     setDate(today.toISOString().split("T")[0]);
     setDescription("");
-
+    toast.success(existingData ? 'Transaction updated!' : 'Transaction added!');
     onSuccess();
     onClose();
 
   } catch (error) {
     console.error(error);
+    toast.error('Failed to save transaction');
   }};
   
   const handleDateChange = (e) => {

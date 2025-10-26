@@ -19,6 +19,7 @@ function App() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -78,19 +79,6 @@ function App() {
         return '📦';
     }
   };
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.target.closest('.options-menu') && !event.target.closest('button')) {
-        setOptionsVisible(null);
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
 
   const mappingFunction = (tx) => {
     const isIncome = tx.type === "income";
@@ -208,6 +196,19 @@ function App() {
   const incomeCategories = ["Salary", "Free Lance", "Investments"];
 
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.options-menu') && !event.target.closest('button')) {
+        setOptionsVisible(null);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
     const token = localStorage.getItem('authToken');
     if (!token) {
       navigate("/signin");
@@ -216,7 +217,15 @@ function App() {
     
     // You can verify the token with your server if needed
     setUser({ email: 'User' }); // Set a placeholder or fetch user data
-    fetchTransactions();
+    fetchTransactions().finally(() => setLoading(false));
+
+    if (loading) {
+      return (
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+        </div>
+      );
+    }
   }, [navigate]);
 
   useEffect(() => {
@@ -344,8 +353,6 @@ function App() {
             </div>
           </div>
         )}
-
-
         
         <div className="flex justify-between mx-30 my-6">
           <div> 
@@ -445,6 +452,20 @@ function App() {
         </div>
 
       </div>
+
+      {transactions.length === 0 && !loading && (
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 mx-30 p-12 text-center">
+          <div className="text-6xl mb-4">💰</div>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">No transactions yet</h3>
+          <p className="text-gray-600 mb-6">Start tracking your finances by adding your first transaction</p>
+          <button 
+            onClick={() => setNewTransaction(true)}
+            className="bg-purple-500 text-white px-6 py-3 rounded-lg hover:bg-purple-600 transition-colors"
+          >
+            Add Your First Transaction
+          </button>
+        </div>
+      )}
 
       {newtransaction && (
         <Transaction className="transaction-card"
