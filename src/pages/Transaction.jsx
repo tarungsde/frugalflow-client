@@ -51,8 +51,8 @@ function Transaction({ onClose, onSuccess, existingData }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end transition-opacity duration-300 backdrop-blur-sm">
-      <div className="w-full max-w-md bg-white shadow-2xl h-full transform transition-transform duration-500 ease-in-out translate-x-0">
+    <div className="fixed inset-0 z-50 flex justify-end backdrop-blur-sm">
+      <div className="w-full max-w-md bg-white shadow-2xl h-full transform transition-transform duration-300 ease-in-out">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 sm:p-6 h-full overflow-y-auto">
           {/* Close button */}
           <div className="flex justify-between items-center mb-2">
