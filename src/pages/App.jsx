@@ -283,7 +283,7 @@ function App() {
             <h1 className="text-xl sm:text-2xl font-bold">FrugalFlow</h1>
           </div>
           <button 
-            className="w-full sm:w-auto text-white text-sm sm:text-base bg-purple-500 px-4 py-2 sm:py-3 border-0 rounded-md hover:bg-white hover:text-purple-500 transition duration-200 cursor-pointer hover:border-2 hover:border-purple-500"
+            className="w-full sm:w-auto text-white text-sm bg-purple-500 px-4 py-2 border-0 rounded-md hover:bg-white hover:text-purple-500 transition duration-200 cursor-pointer hover:border-2 hover:border-purple-500"
             onClick={handleLogout}
           >
             Logout
