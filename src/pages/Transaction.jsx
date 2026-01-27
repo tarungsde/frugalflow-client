@@ -15,48 +15,94 @@ function Transaction({ onClose, onSuccess, existingData }) {
   const [description, setDescription] = useState(existingData?.description || "");
   const [date, setDate] = useState(
     existingData ? existingData.date.split("T")[0] : "" || today.toISOString().split("T")[0]);
+  const [customCategory, setCustomCategory] = useState("");
+  const [showCustomCategoryInput, setShowCustomCategoryInput] = useState(false);
 
   useEffect(() => {
-    if (!existingData)
+    if (!existingData) {
       setCategory("");
+      setCustomCategory("");
+      setShowCustomCategoryInput(false);
+    } else {
+      const categories = transactionType === "expense" ? expenseCategories : incomeCategories;
+      const isCustomCategory = !categories.includes(existingData.category);
+      if (isCustomCategory) {
+        setCustomCategory(existingData.category);
+        setCategory("Others");
+        setShowCustomCategoryInput(true);
+      }
+    }
   }, [transactionType, existingData]);
 
-  const handleSubmit = async (e) => {
-    
-  e.preventDefault();
-
-  try {
-    if (existingData) {
-      await axios.put(`/update-transaction/${existingData._id}`, {
-        type: transactionType,
-        category,
-        amount: transactionAmount,
-        description,
-        date,
-      });
+  useEffect(() => {
+    // When category changes to "Others", show custom input
+    if (category === "Others") {
+      setShowCustomCategoryInput(true);
+      // If customCategory already has a value from editing, keep it
+      if (!customCategory && existingData?.category) {
+        const categories = transactionType === "expense" ? expenseCategories : incomeCategories;
+        if (!categories.includes(existingData.category)) {
+          setCustomCategory(existingData.category);
+        }
+      }
     } else {
-      await axios.post("/add-transaction", {
-        type: transactionType,
-        category,
-        amount: transactionAmount,
-        description,
-        date,
-      });
+      setShowCustomCategoryInput(false);
+      // Clear custom category when switching away from "Others"
+      if (category !== existingData?.category) {
+        setCustomCategory("");
+      }
     }
+  }, [category, transactionType]);
 
-    setTransactionAmount("");
-    setTransactionType("expense");
-    setCategory("");
-    setDate(today.toISOString().split("T")[0]);
-    setDescription("");
-    toast.success(existingData ? 'Transaction updated!' : 'Transaction added!');
-    onSuccess();
-    onClose();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  } catch (error) {
-    console.error(error);
-    toast.error('Failed to save transaction');
-  }};
+    try {
+      let finalCategory = category;
+      if (category === "Others" && customCategory.trim() !== "") {
+        finalCategory = customCategory.trim();
+      }
+
+      if (category === "Others" && (!customCategory || customCategory.trim() === "")) {
+        toast.error('Please enter a custom category name');
+        return;
+      }
+
+      if (existingData) {
+        await axios.put(`/update-transaction/${existingData._id}`, {
+          type: transactionType,
+          category: finalCategory,
+          amount: transactionAmount,
+          description,
+          date,
+        });
+      } else {
+        await axios.post("/add-transaction", {
+          type: transactionType,
+          category: finalCategory,
+          amount: transactionAmount,
+          description,
+          date,
+        });
+      }
+
+      setTransactionAmount("");
+      setTransactionType("expense");
+      setCategory("");
+      setCustomCategory("");
+      setCustomCategory("");
+      setShowCustomCategoryInput(false);
+      setDate(today.toISOString().split("T")[0]);
+      setDescription("");
+      toast.success(existingData ? 'Transaction updated!' : 'Transaction added!');
+      onSuccess();
+      onClose();
+
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to save transaction');
+    }
+  };
   
   const handleDateChange = (e) => {
     setDate(e.target.value);
@@ -140,6 +186,26 @@ function Transaction({ onClose, onSuccess, existingData }) {
               <option key={index} value={cat}>{cat}</option>
             ))}
           </select>
+
+          {showCustomCategoryInput && (
+            <div className="mt-2">
+              <label htmlFor="customCategory" className="font-medium text-gray-700">
+                Custom Category Name
+              </label>
+              <input
+                type="text"
+                id="customCategory"
+                value={customCategory}
+                onChange={(e) => setCustomCategory(e.target.value)}
+                placeholder="Enter your custom category"
+                className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-purple-400 focus:outline-none"
+                required={category === "Others"}
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Please enter a name for your custom category
+              </p>
+            </div>
+          )}
 
           {/* Date */}
           <label htmlFor="mydate" className="font-medium text-gray-700">Date</label>
